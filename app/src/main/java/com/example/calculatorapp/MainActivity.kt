@@ -3,7 +3,9 @@ package com.example.calculatorapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.calculatorapp.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.Snackbar
 
 
 class MainActivity : AppCompatActivity() {
@@ -15,14 +17,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         
             binding.buttonCalculate.setOnClickListener {
-                val input = binding.editTextInput.text.toString().toIntOrNull()
-                if (input != null) {
-                    val result = convertToGeorgianWords(input)
+                val input = binding.editTextInput.text.toString()
+                if (input.startsWith('0') || input.isEmpty()) {
+                    Snackbar.make(binding.root, "შეიყვანეთ ვალიდური ციფრი!!!", Snackbar.LENGTH_SHORT).show()
+                } else {
+                    val inputInt = input.toInt()
+                    val result = convertToGeorgianWords(inputInt)
                     binding.textView.text = result.toString()
-                } else  {
-                    Toast.makeText(this, "შეიყვანეთ ვალიდური ციფრი!!", Toast.LENGTH_LONG).show()
                 }
-
             }
 
 
@@ -38,7 +40,8 @@ class MainActivity : AppCompatActivity() {
         val roundedHundreds = arrayOf("", "ასი", "ორასი", "სამასი", "ოთხასი", "ხუთასი", "ექვსასი", "შვიდასი", "რვაასი", "ცხრაასი")
         val hundreds = arrayOf("", "ას", "ორას", "სამას", "ოთხას", "ხუთას", "ექვსას", "შვიდას", "რვაას", "ცხრაას")
         return when {
-            number > 1000 -> "შეიყვანეთ 1000-ზე ნაკლები!!!"
+            number == 1000 -> "ათასი"
+            number < 0 || number > 1000 -> "შეიყვანეთ ვალიდური ციფრი!!!"
             number == 0 -> "ნული"
             number <= 20 -> units[number]
             number % 10 == 0 && number < 100 -> roundedTens[number / 10]
