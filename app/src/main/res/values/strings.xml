@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">CalculatorApp</string>
+    <string name="calculate">calculate</string>
+    <string name="enter_number">Enter number</string>
+    <string name="input_numbers_text">შეიყვანეთ რიცხვი 1, 1000 მდე</string>
+</resources>
